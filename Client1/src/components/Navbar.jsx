@@ -11,7 +11,7 @@ const Navbar = ({ onMenuClick }) => {
         </button>
         <Link to="/" className="logo">
           
-          <span>NewTube</span>
+          <span>ThunderTUBE</span>
         </Link>
       </div>
 
