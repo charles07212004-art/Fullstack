@@ -15,6 +15,17 @@
   margin: 0 auto;
   display: grid;
   gap: 28px;
+  width: 100%;
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}
+
+.profile-main.sidebar-open {
+  margin-left: 240px;
+}
+
+.profile-main:not(.sidebar-open) {
+  margin-left: 72px;
 }
 
 .profile-hero {

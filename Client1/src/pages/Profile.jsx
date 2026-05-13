@@ -9,6 +9,11 @@ const Profile = () => {
   const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const [avatarUrl, setAvatarUrl] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const profileUser = user || {
     name: 'mart ramos',
@@ -42,10 +47,10 @@ const Profile = () => {
 
   return (
     <div className="page profile-page">
-      <Navbar />
+      <Navbar onMenuClick={toggleSidebar} />
       <div className="page-content">
-        <Sidebar isOpen={false} />
-        <main className="page-main profile-main">
+        <Sidebar isOpen={isSidebarOpen} />
+        <main className={`page-main profile-main ${isSidebarOpen ? 'sidebar-open' : ''}`}>
           <section className="profile-hero">
             <div className="profile-hero-copy">
               <p className="profile-badge">Profile</p>

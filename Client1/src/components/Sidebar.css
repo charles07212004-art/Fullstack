@@ -7,16 +7,16 @@
   left: 0;
   bottom: 0;
   overflow-y: auto;
-  transition: transform 0.3s ease;
-  z-index: 999;
+  transition: left 0.3s ease;
+  z-index: 100;
 }
 
 .sidebar.open {
-  transform: translateX(0);
+  left: 0;
 }
 
 .sidebar:not(.open) {
-  transform: translateX(-240px);
+  left: -240px;
 }
 
 .sidebar-content {

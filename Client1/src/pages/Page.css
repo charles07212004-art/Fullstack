@@ -10,9 +10,19 @@
 
 .page-main {
   flex: 1;
+  min-width: 0;
   padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}
+
+.page-main.sidebar-open {
+  margin-left: 240px;
+}
+
+.page-main:not(.sidebar-open) {
+  margin-left: 72px;
 }
 
 .page-main h1 {

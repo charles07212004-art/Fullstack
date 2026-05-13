@@ -11,6 +11,11 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,10 +30,10 @@ const Register = () => {
 
   return (
     <div className="page auth-page">
-      <Navbar />
+      <Navbar onMenuClick={toggleSidebar} />
       <div className="page-content auth-content">
-        <Sidebar isOpen={false} />
-        <main className="page-main auth-main">
+        <Sidebar isOpen={isSidebarOpen} />
+        <main className={`page-main auth-main ${isSidebarOpen ? 'sidebar-open' : ''}`}>
           <section className="auth-panel">
             <div className="auth-top">
               <div>

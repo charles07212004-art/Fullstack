@@ -1,13 +1,36 @@
 .video-grid {
   width: 100%;
-  max-width: 1200px;
-  margin: 0;
+  max-width: 1440px;
+  margin: 0 auto;
   display: grid;
-  justify-items: start;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  justify-items: stretch;
+  /* Default: keep Home format */
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
   gap: 16px;
   padding: 0;
   align-items: start;
+  grid-auto-rows: minmax(min-content, max-content);
+}
+
+/* Watch: keep related list compact so it won't hide replies */
+.watch .related-section .video-grid {
+  gap: 12px;
+}
+
+
+/* Watch page: Related videos should be stacked vertically like YouTube */
+.watch .related-section .video-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 1024px) {
+  .video-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
+  .watch .related-section .video-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
@@ -15,10 +38,9 @@
     grid-template-columns: 1fr;
     gap: 12px;
   }
-}
 
-@media (min-width: 641px) and (max-width: 1024px) {
-  .video-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  .watch .related-section .video-grid {
+    grid-template-columns: 1fr;
   }
 }
+

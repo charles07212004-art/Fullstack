@@ -1,7 +1,7 @@
 import VideoCard from './VideoCard';
 import './VideoGrid.css';
 
-const VideoGrid = ({ videos, onDelete, selectedVideos, onSelectVideo, isSelectionMode }) => {
+const VideoGrid = ({ videos = [], onDelete, selectedVideos = [], onSelectVideo, isSelectionMode }) => {
   return (
     <div className="video-grid">
       {videos.map((video) => (

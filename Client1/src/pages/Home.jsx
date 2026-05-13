@@ -4,19 +4,34 @@ import Sidebar from '../components/Sidebar';
 import VideoGrid from '../components/VideoGrid';
 import CategoryChips from '../components/CategoryChips';
 import { mockVideos, categories } from '../utils/mockData';
-import { loadUploadedVideos, removeUploadedVideo, clearAllUploadedVideos, removeMultipleUploadedVideos } from '../utils/videoStorage';
+import { loadUploadedVideos, removeUploadedVideo, clearAllUploadedVideos, removeMultipleUploadedVideos, applyMetricsToVideos } from '../utils/videoStorage';
+import api from '../api/axios';
 import './Home.css';
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [videos, setVideos] = useState(mockVideos);
+  const [videos, setVideos] = useState([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedVideos, setSelectedVideos] = useState([]);
 
   useEffect(() => {
-    const uploaded = loadUploadedVideos();
-    setVideos([...mockVideos, ...uploaded]);
+    const fetchVideos = async () => {
+      const uploaded = loadUploadedVideos();
+      try {
+        const { data } = await api.get('/videos');
+
+        // Treat uploaded videos as local-only and DO NOT block them by id collisions with server data.
+        // This prevents “uploaded videos disappear when a new upload happens”.
+        const merged = [...data, ...uploaded];
+        setVideos(applyMetricsToVideos(merged));
+      } catch (error) {
+        console.error('Failed to load videos from backend:', error);
+        setVideos(applyMetricsToVideos([...mockVideos, ...uploaded]));
+      }
+    };
+
+    fetchVideos();
   }, []);
 
   const handleDelete = (id) => {
@@ -69,12 +84,8 @@ const Home = () => {
               onCategoryChange={setSelectedCategory}
             />
             <div className="button-group">
-              {isSelectionMode && selectedVideos.length > 0 && (
-                <button className="delete-selected-btn" onClick={handleDeleteSelected}>
-                  🗑️ Delete {selectedVideos.length}
-                </button>
-              )}
               <button
+                type="button"
                 className={`select-btn ${isSelectionMode ? 'active' : ''}`}
                 onClick={() => {
                   setIsSelectionMode(!isSelectionMode);
@@ -84,18 +95,29 @@ const Home = () => {
               >
                 {isSelectionMode ? '✓ Done' : '📋 Select'}
               </button>
-              <button className="delete-all-btn" onClick={handleDeleteAll} title="Delete all uploaded videos">
+              {isSelectionMode && selectedVideos.length > 0 && (
+                <button type="button" className="delete-selected-btn" onClick={handleDeleteSelected}>
+                  🗑️ Delete {selectedVideos.length}
+                </button>
+              )}
+              <button type="button" className="delete-all-btn" onClick={handleDeleteAll} title="Delete all uploaded videos">
                 🗑️ Delete All
               </button>
             </div>
           </div>
-          <VideoGrid
-            videos={filteredVideos}
-            onDelete={handleDelete}
-            selectedVideos={selectedVideos}
-            onSelectVideo={handleSelectVideo}
-            isSelectionMode={isSelectionMode}
-          />
+          {filteredVideos.length === 0 ? (
+            <div className="empty-state">
+              <p>No videos found. Upload a video or choose a different category.</p>
+            </div>
+          ) : (
+            <VideoGrid
+              videos={filteredVideos}
+              onDelete={handleDelete}
+              selectedVideos={selectedVideos}
+              onSelectVideo={handleSelectVideo}
+              isSelectionMode={isSelectionMode}
+            />
+          )}
         </main>
       </div>
     </div>

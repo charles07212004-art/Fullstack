@@ -1,0 +1,70 @@
+.like-dislike {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.like-dislike button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  border-radius: 20px;
+}
+
+.like-dislike button:hover {
+  background: var(--hover-bg);
+}
+
+.like-dislike button.active {
+  color: var(--primary-color);
+}
+
+.like-dislike button svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-color);
+  margin: 0 8px;
+}
+
+.share-btn,
+.download-btn {
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .like-dislike {
+    flex-wrap: wrap;
+  }
+
+  .like-dislike button {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .like-dislike button span {
+    display: none;
+  }
+
+  .like-dislike button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .divider {
+    margin: 0 4px;
+  }
+}

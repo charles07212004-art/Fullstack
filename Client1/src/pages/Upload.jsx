@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { addUploadedVideo, createUploadedVideo } from '../utils/videoStorage';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import api from '../api/axios';
 import './Page.css';
 
 const Upload = () => {
@@ -16,6 +17,11 @@ const Upload = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('success');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -31,9 +37,27 @@ const Upload = () => {
     setMessageType('success');
 
     try {
-      const savedVideo = await createUploadedVideo(formData);
-      addUploadedVideo(savedVideo);
+      const preparedVideo = await createUploadedVideo(formData);
+      const payload = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        channel: formData.channel,
+        videoUrl: formData.videoUrl,
+        thumbnailUrl: formData.thumbnailUrl,
+        duration: preparedVideo.duration
+      };
 
+      let savedVideo;
+      try {
+        const { data } = await api.post('/videos', payload);
+        savedVideo = { ...data, isUploaded: true };
+      } catch (backendError) {
+        console.warn('Backend upload failed, saving locally instead:', backendError);
+        savedVideo = preparedVideo;
+      }
+
+      addUploadedVideo(savedVideo);
       setMessage('Video uploaded successfully!');
       setFormData({
         title: '',
@@ -54,10 +78,10 @@ const Upload = () => {
 
   return (
     <div className="page">
-      <Navbar />
+      <Navbar onMenuClick={toggleSidebar} />
       <div className="page-content">
-        <Sidebar isOpen={false} />
-        <main className="page-main">
+        <Sidebar isOpen={isSidebarOpen} />
+        <main className={`page-main ${isSidebarOpen ? 'sidebar-open' : ''}`}>
           <h1>Upload Video</h1>
           <form onSubmit={handleSubmit} className="upload-form">
             <div className="form-group">

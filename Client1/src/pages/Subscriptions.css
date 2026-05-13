@@ -1,0 +1,84 @@
+.subscriptions-header {
+  margin-bottom: 16px;
+}
+
+.subscriptions-summary {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.empty-message {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.subscription-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.subscription-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+}
+
+.subscription-card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subscription-avatar {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 700;
+  color: white;
+  background: var(--primary-color);
+}
+
+.unsubscribe-btn {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.unsubscribe-btn:hover {
+  background: var(--hover-bg);
+}
+
+.subscription-videos h2 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+@media (max-width: 860px) {
+  .subscription-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .subscription-card-left {
+    width: 100%;
+  }
+
+  .unsubscribe-btn {
+    width: 100%;
+  }
+}

@@ -4,10 +4,22 @@ const { videos, categories, comments } = require('./data');
 
 const app = express();
 const port = process.env.PORT || 4000;
-let commentCounter = comments.length + 1;
+let nextVideoId = videos.reduce((maxId, video) => Math.max(maxId, video.id || 0), 0) + 1;
+let commentCounter = comments.reduce((maxId, comment) => Math.max(maxId, comment.id || 0), 0) + 1;
+
+const getYouTubeThumbnail = (url) => {
+  const ytMatch = url.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/i);
+  return ytMatch ? `https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg` : null;
+};
+
+const getVideoThumbnail = (videoUrl, thumbnailUrl) => {
+  if (thumbnailUrl) return thumbnailUrl;
+  const youtubeThumbnail = getYouTubeThumbnail(videoUrl);
+  return youtubeThumbnail || `https://picsum.photos/320/180?random=${Date.now()}`;
+};
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 app.get('/api', (req, res) => {
   res.json({ message: 'Backend is running', version: '1.0.0' });
@@ -61,6 +73,7 @@ app.get('/api/comments', (req, res) => {
 app.post('/api/comments', (req, res) => {
   const { videoId, author, text } = req.body;
 
+
   if (!videoId || !author || !text) {
     return res.status(400).json({ error: 'videoId, author, and text are required' });
   }
@@ -78,24 +91,26 @@ app.post('/api/comments', (req, res) => {
 });
 
 app.post('/api/videos', (req, res) => {
-  const { title, description, category, channel, channelAvatar, videoUrl } = req.body;
+  const { title, description, category, channel, channelAvatar, videoUrl, thumbnailUrl, duration } = req.body;
+
 
   if (!title || !description || !category || !channel || !videoUrl) {
     return res.status(400).json({ error: 'title, description, category, channel, and videoUrl are required' });
   }
 
   const newVideo = {
-    id: videos.length + 1,
+    id: nextVideoId++,
     title,
     description,
     category,
     channel,
     channelAvatar: channelAvatar || 'https://picsum.photos/40/40?random=99',
-    thumbnail: 'https://picsum.photos/320/180?random=' + (videos.length + 1),
+    thumbnail: getVideoThumbnail(videoUrl, thumbnailUrl),
     videoUrl,
     views: '0',
     timestamp: 'Just uploaded',
-    duration: '0:00'
+    duration: duration || '0:00',
+    isUploaded: true
   };
 
   videos.push(newVideo);

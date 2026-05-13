@@ -1,68 +1,71 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './VideoPlayer.css';
+import { extractYouTubeId, getYouTubeEmbedUrl, isYouTubeUrl } from '../utils/youtube';
 
-const getYouTubeEmbed = (url) => {
-  const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]+)/);
-  return ytMatch ? `https://www.youtube.com/embed/${ytMatch[1]}` : null;
+const isVideoFile = (url) => /\.(mp4|webm|ogg|mov|mkv|avi|flv|mpeg|mpg)(\?.*)?$/i.test(url);
+
+const formatTime = (time) => {
+  const mins = Math.floor(time / 60);
+  const secs = Math.floor(time % 60).toString().padStart(2, '0');
+  return `${mins}:${secs}`;
 };
 
-const isVideoFile = (url) => /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
-
 const VideoPlayer = ({ video }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const embedUrl = video.videoUrl ? getYouTubeEmbed(video.videoUrl) : null;
+  const [currentTime, setCurrentTime] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
+  const videoRef = useRef(null);
+  const youtubeId = video.videoUrl ? extractYouTubeId(video.videoUrl) : null;
+  const embedUrl = youtubeId ? getYouTubeEmbedUrl(youtubeId) : null;
+  const showEmbed = embedUrl && isYouTubeUrl(video.videoUrl);
 
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setTotalTime(videoRef.current.duration);
+    }
   };
 
-  if (video.videoUrl) {
-    return (
-      <div className="video-player">
-        <div className="video-container video-embed-container">
-          {embedUrl ? (
-            <iframe
-              src={embedUrl}
-              title={video.title}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : isVideoFile(video.videoUrl) ? (
-            <video controls src={video.videoUrl} className="video-iframe" />
-          ) : (
-            <div className="external-video-link">
-              <a href={video.videoUrl} target="_blank" rel="noreferrer">
-                Open video link
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  };
+
+  const timeLabel = totalTime > 0 ? `${formatTime(currentTime)} / ${formatTime(totalTime)}` : (video.duration ? String(video.duration) : '--:--');
 
   return (
     <div className="video-player">
-      <div className="video-container" onClick={togglePlay}>
-        <img
-          src={video.thumbnail}
-          alt={video.title}
-          className="video-preview"
-        />
-        {!isPlaying && (
-          <div className="play-overlay">
-            <button className="play-btn">
-              <svg viewBox="0 0 24 24">
-                <path d="M8,5V19L19,12L8,5Z" />
-              </svg>
-            </button>
+      <div className="video-container video-embed-container">
+        {showEmbed ? (
+          <iframe
+            src={`${embedUrl}?rel=0&modestbranding=1&playsinline=1&controls=0&autoplay=1&mute=0`}
+            title={video.title}
+            frameBorder="0"
+            allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; fullscreen"
+            allowFullScreen
+          />
+        ) : isVideoFile(video.videoUrl) ? (
+          <video
+            ref={videoRef}
+            controls
+            muted={false}
+            autoPlay
+            playsInline
+            src={video.videoUrl}
+            className="video-iframe"
+            onLoadedMetadata={handleLoadedMetadata}
+            onTimeUpdate={handleTimeUpdate}
+          />
+        ) : (
+          <div className="external-video-link">
+            <a href={video.videoUrl} target="_blank" rel="noreferrer">
+              Open video link
+            </a>
           </div>
         )}
       </div>
       <div className="video-controls">
         <div className="progress-bar">
-          <div className="progress-fill" style={{ width: '30%' }}></div>
+          <div className="progress-fill" style={{ width: totalTime > 0 ? `${(currentTime / totalTime) * 100}%` : '0%' }}></div>
         </div>
         <div className="controls">
           <button className="control-btn">
@@ -75,7 +78,7 @@ const VideoPlayer = ({ video }) => {
               <path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" />
             </svg>
           </button>
-          <span className="time">0:00 / {video.duration}</span>
+          <span className="time">{timeLabel}</span>
           <div className="spacer"></div>
           <button className="control-btn">
             <svg viewBox="0 0 24 24">

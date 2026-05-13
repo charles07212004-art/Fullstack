@@ -10,10 +10,6 @@ const Sidebar = ({ isOpen }) => {
     { path: '/subscriptions', icon: '📺', label: 'Subscriptions' },
     { path: '/library', icon: '📚', label: 'Library' },
     { path: '/history', icon: '🕒', label: 'History' },
-    { path: '/upload', icon: '⬆️', label: 'Upload' },
-    { path: '/your-videos', icon: '🎥', label: 'Your videos' },
-    { path: '/watch-later', icon: '⏰', label: 'Watch later' },
-    { path: '/liked-videos', icon: '👍', label: 'Liked videos' }
   ];
 
   return (
@@ -31,13 +27,6 @@ const Sidebar = ({ isOpen }) => {
             </Link>
           ))}
         </nav>
-
-        <hr className="sidebar-divider" />
-
-        <div className="sidebar-section">
-          <h3 className="sidebar-title">Subscriptions</h3>
-          <div className="sidebar-empty">No users subscribed</div>
-        </div>
 
         <hr className="sidebar-divider" />
 

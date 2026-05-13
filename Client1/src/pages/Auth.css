@@ -13,6 +13,17 @@
   padding: 32px 24px;
   max-width: 980px;
   margin: 0 auto;
+  width: 100%;
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}
+
+.auth-main.sidebar-open {
+  margin-left: 240px;
+}
+
+.auth-main:not(.sidebar-open) {
+  margin-left: 72px;
 }
 
 .auth-panel {

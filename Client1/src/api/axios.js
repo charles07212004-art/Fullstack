@@ -2,11 +2,18 @@ const baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
 const localFallback = 'http://localhost:4000/api';
 
 const makeRequest = async (url, options) => {
-  const response = await fetch(`${baseURL}${url}`, options);
-  if (!response.ok && response.status === 404 && baseURL === '/api') {
-    return fetch(`${localFallback}${url}`, options);
+  try {
+    const response = await fetch(`${baseURL}${url}`, options);
+    if (!response.ok && baseURL === '/api') {
+      return fetch(`${localFallback}${url}`, options);
+    }
+    return response;
+  } catch (error) {
+    if (baseURL === '/api') {
+      return fetch(`${localFallback}${url}`, options);
+    }
+    throw error;
   }
-  return response;
 };
 
 const api = {

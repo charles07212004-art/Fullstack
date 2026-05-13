@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import SearchBar from './SearchBar';
 import './Navbar.css';
 
-const Navbar = ({ onMenuClick }) => {
+const Navbar = ({ onMenuClick = () => {} }) => {
+  const { user } = useAuth();
+
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <button className="menu-btn" onClick={onMenuClick}>
+        <button type="button" className="menu-btn" onClick={onMenuClick}>
           <span className="hamburger"></span>
         </button>
         <Link to="/" className="logo">
@@ -36,7 +39,7 @@ const Navbar = ({ onMenuClick }) => {
           </svg>
         </button>
         <Link to="/profile" className="user-avatar">
-          <img src="https://picsum.photos/32/32?random=1" alt="User" />
+          <img src={user?.avatar || 'https://picsum.photos/32/32?random=1'} alt={user?.name || 'User'} />
         </Link>
       </div>
     </nav>
