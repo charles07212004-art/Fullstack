@@ -1,11 +1,44 @@
 const express = require('express');
 const cors = require('cors');
-const { videos, categories, comments } = require('./data');
+const fs = require('fs').promises;
+const { videos: initialVideos, categories: initialCategories, comments: initialComments } = require('./data');
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
+const VIDEOS_FILE = './videos.json';
+
+let videos = [];
+let categories = [];
+let comments = [];
+
+try {
+  videos = initialVideos || [];
+  categories = initialCategories || [];
+  comments = initialComments || [];
+} catch (e) {
+  console.log('data.js not found, using empty');
+}
+
 let nextVideoId = videos.reduce((maxId, video) => Math.max(maxId, video.id || 0), 0) + 1;
 let commentCounter = comments.reduce((maxId, comment) => Math.max(maxId, comment.id || 0), 0) + 1;
+
+const loadVideos = async () => {
+  try {
+    const data = await fs.readFile(VIDEOS_FILE, 'utf8');
+    videos = JSON.parse(data);
+    nextVideoId = videos.reduce((maxId, video) => Math.max(maxId, video.id || 0), 0) + 1;
+  } catch (e) {
+    // use initial videos
+  }
+};
+
+const saveVideos = async () => {
+  try {
+    await fs.writeFile(VIDEOS_FILE, JSON.stringify(videos, null, 2));
+  } catch (e) {
+    console.error('Failed to save videos', e);
+  }
+};
 
 const getYouTubeThumbnail = (url) => {
   const ytMatch = url.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/i);
@@ -90,7 +123,7 @@ app.post('/api/comments', (req, res) => {
   res.status(201).json(newComment);
 });
 
-app.post('/api/videos', (req, res) => {
+app.post('/api/videos', async (req, res) => {
   const { title, description, category, channel, channelAvatar, videoUrl, thumbnailUrl, duration } = req.body;
 
 
@@ -114,9 +147,28 @@ app.post('/api/videos', (req, res) => {
   };
 
   videos.push(newVideo);
+  await saveVideos();
   res.status(201).json(newVideo);
 });
 
-app.listen(port, () => {
-  console.log(`Backend server listening on http://localhost:${port}`);
-});
+const startServer = async () => {
+  await loadVideos();
+  const server = app.listen(port, () => {
+    console.log(`Backend server listening on http://localhost:${port}`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Port ${port} is already in use. Stop the other process or use a different PORT.`);
+      process.exit(1);
+    }
+    throw err;
+  });
+};
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { startServer };
+

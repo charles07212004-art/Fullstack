@@ -50,10 +50,13 @@ const Watch = () => {
 
         const { data: allVideos } = await api.get('/videos');
         const related = allVideos.filter((item) => String(item.id) !== String(id));
-        setRelatedVideos(applyMetricsToVideos([
-          ...related,
-          ...uploaded.filter((item) => String(item.id) !== String(id) && !related.some((relatedItem) => String(relatedItem.id) === String(item.id)))
-        ]).slice(0, 8));
+        const mergedRelated = [...related, ...uploaded].filter((video, index, self) => {
+          const firstMatchIndex = self.findIndex((item) =>
+            String(item.id) === String(video.id) || item.videoUrl?.trim() === video.videoUrl?.trim()
+          );
+          return index === firstMatchIndex && String(video.id) !== String(id);
+        });
+        setRelatedVideos(applyMetricsToVideos(mergedRelated).slice(0, 8));
       } catch (error) {
         console.error('Failed to load video from backend:', error);
         const videos = [...mockVideos, ...uploaded];
@@ -70,7 +73,14 @@ const Watch = () => {
           setSubscribed(isSubscribedToChannel(selectedVideo.channel));
         }
 
-        setRelatedVideos(applyMetricsToVideos(videos.filter((item) => String(item.id) !== String(id))).slice(0, 8));
+        const dedupedVideos = videos.filter((video, index, self) => {
+          const firstMatchIndex = self.findIndex((item) =>
+            String(item.id) === String(video.id) || item.videoUrl?.trim() === video.videoUrl?.trim()
+          );
+          return index === firstMatchIndex;
+        });
+
+        setRelatedVideos(applyMetricsToVideos(dedupedVideos.filter((item) => String(item.id) !== String(id))).slice(0, 8));
       }
     };
 

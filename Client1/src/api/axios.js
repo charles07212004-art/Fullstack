@@ -1,5 +1,5 @@
 const baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
-const localFallback = 'http://localhost:4000/api';
+const localFallback = 'http://localhost:3000/api';
 
 const makeRequest = async (url, options) => {
   try {

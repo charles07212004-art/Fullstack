@@ -42,6 +42,7 @@ const VideoCard = ({ video, onDelete, isSelected, onSelect, isSelectionMode }) =
   const [previewRemaining, setPreviewRemaining] = useState(video.duration || '0:00');
   const [previewDuration, setPreviewDuration] = useState(video.duration || '0:00');
   const [previewTotalSeconds, setPreviewTotalSeconds] = useState(parseDuration(video.duration || '0:00'));
+  const [loadedDuration, setLoadedDuration] = useState(video.duration || '0:00');
   const previewRef = useRef(null);
   const isUploaded = Boolean(video.isUploaded);
   const showVideoPreview = isHovered && (isVideoFile(video.videoUrl) || isYouTubeVideo(video.videoUrl));
@@ -64,6 +65,34 @@ const VideoCard = ({ video, onDelete, isSelected, onSelect, isSelectionMode }) =
       }
     }
   }, [showVideoPreview, previewMuted]);
+
+  useEffect(() => {
+    if ((video.duration === '0:00' || !video.duration) && isVideoFile(video.videoUrl)) {
+      const videoEl = document.createElement('video');
+      videoEl.preload = 'metadata';
+      videoEl.muted = true;
+      videoEl.playsInline = true;
+      videoEl.crossOrigin = 'anonymous';
+      videoEl.style.display = 'none';
+      document.body.appendChild(videoEl);
+
+      const onLoaded = () => {
+        const mins = Math.floor(videoEl.duration / 60);
+        const secs = Math.floor(videoEl.duration % 60);
+        const dur = `${mins}:${secs.toString().padStart(2, '0')}`;
+        setLoadedDuration(dur);
+        document.body.removeChild(videoEl);
+      };
+
+      const onError = () => {
+        document.body.removeChild(videoEl);
+      };
+
+      videoEl.addEventListener('loadedmetadata', onLoaded);
+      videoEl.addEventListener('error', onError);
+      videoEl.src = video.videoUrl;
+    }
+  }, [video.duration, video.videoUrl]);
 
   const handlePreviewTimeUpdate = (event) => {
     const currentSeconds = Math.floor(event.target.currentTime || 0);
@@ -145,7 +174,7 @@ const VideoCard = ({ video, onDelete, isSelected, onSelect, isSelectionMode }) =
           <div className="video-duration">
             {showVideoPreview && isVideoFile(video.videoUrl)
               ? `${previewRemaining} / ${previewDuration}`
-              : video.duration || '0:00'}
+              : loadedDuration || video.duration || '0:00'}
           </div>
         </div>
       </Link>

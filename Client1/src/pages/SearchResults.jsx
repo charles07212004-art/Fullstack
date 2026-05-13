@@ -23,12 +23,22 @@ const SearchResults = () => {
       const uploaded = loadUploadedVideos();
       try {
         const { data } = await api.get('/videos', { params: { q: query } });
-        // Treat uploaded videos as local-only and DO NOT block them by id collisions with server data.
-        const merged = [...data, ...uploaded];
+        const merged = [...data, ...uploaded].filter((video, index, self) => {
+          const firstMatchIndex = self.findIndex((item) =>
+            String(item.id) === String(video.id) || item.videoUrl?.trim() === video.videoUrl?.trim()
+          );
+          return index === firstMatchIndex;
+        });
         setVideos(applyMetricsToVideos(merged));
       } catch (error) {
         console.error('Failed to load search results from backend:', error);
-        setVideos(applyMetricsToVideos([...mockVideos, ...uploaded]));
+        const merged = [...mockVideos, ...uploaded].filter((video, index, self) => {
+          const firstMatchIndex = self.findIndex((item) =>
+            String(item.id) === String(video.id) || item.videoUrl?.trim() === video.videoUrl?.trim()
+          );
+          return index === firstMatchIndex;
+        });
+        setVideos(applyMetricsToVideos(merged));
       }
     };
 

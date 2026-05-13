@@ -18,11 +18,12 @@
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
+  align-items: flex-start;
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   flex-shrink: 0;
   object-fit: cover;
@@ -34,10 +35,10 @@
 
 .comment-input {
   width: 100%;
-  min-height: 48px;
+  min-height: 72px;
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border-radius: 18px;
+  padding: 14px 16px;
   background: var(--surface-color);
   color: var(--text-primary);
   font-size: 14px;

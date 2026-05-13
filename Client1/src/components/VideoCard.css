@@ -2,14 +2,36 @@
   width: 100%;
   max-width: 100%;
   margin-bottom: 16px;
-  cursor: pointer;
   text-align: left;
   position: relative;
-  transition: opacity 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s, opacity 0.2s;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+}
+
+.watch .related-section .video-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  margin-bottom: 12px;
+}
+
+.watch .related-section .video-card:hover {
+  transform: none;
+}
+
+.video-card:hover {
+  transform: translateY(-1px);
 }
 
 .video-card.selected {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .video-checkbox {
@@ -41,6 +63,13 @@
   border-radius: 12px;
   overflow: hidden;
   background: #f0f0f0;
+}
+
+.watch .related-section .video-card .video-thumbnail {
+  width: 150px;
+  min-width: 150px;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
 }
 
 .video-thumbnail img,
@@ -101,9 +130,14 @@
 
 .video-info {
   display: flex;
-  gap: 12px;
+  gap: 14px;
+  padding: 14px 16px 16px;
+  align-items: flex-start;
 }
-
+.watch .related-section .video-card .video-info {
+  display: block;
+  padding: 0;
+}
 .channel-avatar {
   width: 36px;
   height: 36px;
@@ -147,6 +181,11 @@
   margin-bottom: 4px;
 }
 
+.watch .related-section .video-card .channel-name {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
 .channel-name:hover {
   color: var(--text-primary);
 }
@@ -157,6 +196,10 @@
   display: flex;
   gap: 4px;
   align-items: center;
+}
+
+.watch .related-section .video-card .video-stats {
+  font-size: 12px;
 }
 
 .delete-btn {
@@ -175,6 +218,10 @@
 
 .video-info:hover .delete-btn {
   opacity: 1;
+}
+
+.watch .related-section .delete-btn {
+  display: none;
 }
 
 .delete-btn:hover {

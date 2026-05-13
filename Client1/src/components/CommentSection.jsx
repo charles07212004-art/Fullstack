@@ -63,6 +63,12 @@ const CommentSection = ({ videoId }) => {
             placeholder="Add a comment..."
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleAddComment(e);
+              }
+            }}
             className="comment-input"
           />
           {newComment.trim() && (

@@ -21,9 +21,13 @@ const Home = () => {
       try {
         const { data } = await api.get('/videos');
 
-        // Treat uploaded videos as local-only and DO NOT block them by id collisions with server data.
-        // This prevents “uploaded videos disappear when a new upload happens”.
-        const merged = [...data, ...uploaded];
+        const merged = [...data, ...uploaded].filter((video, index, self) => {
+          const firstMatchIndex = self.findIndex((item) =>
+            String(item.id) === String(video.id) || item.videoUrl?.trim() === video.videoUrl?.trim()
+          );
+          return index === firstMatchIndex;
+        });
+
         setVideos(applyMetricsToVideos(merged));
       } catch (error) {
         console.error('Failed to load videos from backend:', error);

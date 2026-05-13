@@ -55,9 +55,9 @@ const Upload = () => {
       } catch (backendError) {
         console.warn('Backend upload failed, saving locally instead:', backendError);
         savedVideo = preparedVideo;
+        addUploadedVideo(savedVideo);
       }
 
-      addUploadedVideo(savedVideo);
       setMessage('Video uploaded successfully!');
       setFormData({
         title: '',

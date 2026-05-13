@@ -24,10 +24,11 @@ export const saveUploadedVideos = (videos) => {
 
 export const addUploadedVideo = (video) => {
   const saved = loadUploadedVideos();
+  const normalizedUrl = video.videoUrl?.trim() || '';
+  const idx = saved.findIndex((item) =>
+    String(item.id) === String(video.id) || item.videoUrl?.trim() === normalizedUrl
+  );
 
-  // Prevent accidental replacement when uploading quickly.
-  // If an id already exists, replace only that item; otherwise append.
-  const idx = saved.findIndex((v) => String(v.id) === String(video.id));
   if (idx !== -1) {
     const next = [...saved];
     next[idx] = video;
