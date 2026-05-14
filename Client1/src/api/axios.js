@@ -48,6 +48,24 @@ const api = {
 
     return { data: await response.json() };
   },
+
+  delete: async (url, options = {}) => {
+    const response = await makeRequest(`${url}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {}),
+      },
+      ...(options.body ? { body: JSON.stringify(options.body) } : {}),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.error || response.statusText);
+    }
+
+    return { data: await response.json().catch(() => null) };
+  },
 };
 
 export default api;

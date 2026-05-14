@@ -78,5 +78,61 @@
     "timestamp": "Just uploaded",
     "duration": "0:00",
     "isUploaded": true
+  },
+  {
+    "id": 7,
+    "title": "since day one",
+    "description": "ahyhdadfusjjj",
+    "category": "Music",
+    "channel": "asd",
+    "channelAvatar": "https://picsum.photos/40/40?random=99",
+    "thumbnail": "https://img.youtube.com/vi/jbf4XTbmjU4/maxresdefault.jpg",
+    "videoUrl": "https://www.youtube.com/watch?v=jbf4XTbmjU4&list=RDjbf4XTbmjU4&start_radio=1",
+    "views": "0",
+    "timestamp": "Just uploaded",
+    "duration": "0:00",
+    "isUploaded": true
+  },
+  {
+    "id": 8,
+    "title": "kagome",
+    "description": "asdfnnu",
+    "category": "Music",
+    "channel": "sfad",
+    "channelAvatar": "https://picsum.photos/40/40?random=99",
+    "thumbnail": "https://www.bing.com/images/search?view=detailV2&ccid=URgKWrbP&id=5837C5D915311E91BE678CB6ECA8E01585CA3A84&thid=OIP.URgKWrbPjIO_gBw_0dcqMwHaEJ&mediaurl=https%3a%2f%2fthumbs.dreamstime.com%2fb%2fabstract-music-illustration-notes-instruments-abstract-music-illustration-notes-instruments-generative-ai-296015347.jpg%3fw%3d992&exph=556&expw=992&q=music&FORM=IRPRST&ck=9DF385159F6E36CF4D408FA183591AE4&selectedIndex=9&itb=0",
+    "videoUrl": "https://www.youtube.com/watch?v=0yz8l25jZgA&list=RDjbf4XTbmjU4&index=3",
+    "views": "0",
+    "timestamp": "Just uploaded",
+    "duration": "0:00",
+    "isUploaded": true
+  },
+  {
+    "id": 9,
+    "title": "sadfas",
+    "description": "asdfs",
+    "category": "Music",
+    "channel": "asdf",
+    "channelAvatar": "https://picsum.photos/40/40?random=99",
+    "thumbnail": "https://thfvnext.bing.com/th/id/OIP.gp9QUn748nLepjNYtpTMpQHaHa?w=177&h=180&c=7&r=0&o=7&cb=thfvnext&dpr=1.3&pid=1.7&rm=3",
+    "videoUrl": "https://youtu.be/cO1dfuiT_lU?si=A1kqivu5hx_Mn_Ll",
+    "views": "0",
+    "timestamp": "Just uploaded",
+    "duration": "0:00",
+    "isUploaded": true
+  },
+  {
+    "id": 10,
+    "title": "since day one",
+    "description": "sfsdf",
+    "category": "Music",
+    "channel": "mart",
+    "channelAvatar": "https://picsum.photos/40/40?random=99",
+    "thumbnail": "https://tse1.mm.bing.net/th/id/OIP.7vMalaUKZGo2h9mWJmJp7wHaHa?cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "videoUrl": "https://www.youtube.com/watch?v=T8DLCWW6EpY",
+    "views": "0",
+    "timestamp": "Just uploaded",
+    "duration": "0:00",
+    "isUploaded": true
   }
 ]

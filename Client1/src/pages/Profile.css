@@ -35,8 +35,8 @@
   gap: 18px;
   padding: 32px;
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(96, 165, 250, 0.06));
-  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.07);
+  background: linear-gradient(135deg, var(--accent-bg), var(--accent-gradient));
+  box-shadow: var(--panel-shadow);
 }
 
 .profile-hero-copy {
@@ -48,8 +48,8 @@
   margin-bottom: 16px;
   padding: 8px 16px;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
-  color: #1d4ed8;
+  background: var(--accent-bg);
+  color: var(--accent-color);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -67,12 +67,43 @@
   line-height: 1.75;
 }
 
+.profile-info-note {
+  display: inline-flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: var(--accent-bg);
+  color: var(--text-primary);
+  max-width: 720px;
+}
+
+.profile-info-note .info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-border);
+  color: var(--accent-color);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.profile-info-note p {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
 .sign-out-button {
   border: none;
   padding: 14px 28px;
   border-radius: 999px;
-  background: #2563eb;
-  color: #fff;
+  background: var(--accent-color);
+  color: var(--inverse-text);
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
@@ -91,7 +122,7 @@
   padding: 32px;
   border-radius: 24px;
   background: var(--surface-color);
-  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--panel-shadow);
 }
 
 .profile-card-avatar-wrapper {
@@ -109,8 +140,8 @@
   height: 180px;
   border-radius: 50%;
   object-fit: cover;
-  border: 6px solid rgba(37, 99, 235, 0.16);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  border: 6px solid var(--accent-border);
+  box-shadow: var(--panel-shadow);
 }
 
 .profile-avatar-upload-label {
@@ -120,7 +151,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #2563eb;
+  background: var(--accent-color);
   border: 4px solid var(--surface-color);
   display: flex;
   align-items: center;
@@ -148,6 +179,22 @@
   margin: 0 0 12px;
   font-size: 2rem;
   color: var(--text-primary);
+}
+
+.profile-name-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--surface-color);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+}
+
+.profile-name-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px var(--danger-shadow);
 }
 
 .profile-email {

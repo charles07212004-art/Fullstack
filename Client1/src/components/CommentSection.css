@@ -48,7 +48,7 @@
 
 .comment-input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.08);
+  box-shadow: 0 0 0 3px var(--danger-shadow);
 }
 
 .comment-input::placeholder {
@@ -84,11 +84,11 @@
 
 .submit-btn {
   background: var(--primary-color);
-  color: white;
+  color: var(--inverse-text);
 }
 
 .submit-btn:hover {
-  background: #cc0000;
+  background: var(--danger-color);
 }
 
 .comments-list {

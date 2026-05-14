@@ -123,6 +123,18 @@ app.post('/api/comments', (req, res) => {
   res.status(201).json(newComment);
 });
 
+app.delete('/api/comments/:id', (req, res) => {
+  const commentId = Number(req.params.id);
+  const index = comments.findIndex((comment) => comment.id === commentId);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Comment not found' });
+  }
+
+  comments.splice(index, 1);
+  res.status(204).end();
+});
+
 app.post('/api/videos', async (req, res) => {
   const { title, description, category, channel, channelAvatar, videoUrl, thumbnailUrl, duration } = req.body;
 

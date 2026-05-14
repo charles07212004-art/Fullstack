@@ -18,8 +18,15 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const computedName = email
+      ? email
+          .split('@')[0]
+          .replace(/[-_.]/g, ' ')
+          .replace(/\b\w/g, (match) => match.toUpperCase())
+      : 'Erin User';
+
     login({
-      name: 'Erin User',
+      name: computedName,
       email,
       avatar: 'https://i.pravatar.cc/180?img=32',
       memberSince: 'January 2024'

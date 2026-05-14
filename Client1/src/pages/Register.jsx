@@ -8,7 +8,7 @@ import './Auth.css';
 const Register = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -20,7 +20,7 @@ const Register = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     login({
-      name: name || 'Erin User',
+      name: username || 'ErinUser',
       email,
       avatar: 'https://i.pravatar.cc/180?img=32',
       memberSince: 'January 2024'
@@ -48,12 +48,12 @@ const Register = () => {
 
             <form className="auth-form" onSubmit={handleSubmit}>
               <label>
-                Full name
+                Username
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your full name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Your username"
                   required
                 />
               </label>

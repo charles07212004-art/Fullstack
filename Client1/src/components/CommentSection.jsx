@@ -33,7 +33,6 @@ const CommentSection = ({ videoId }) => {
 
     try {
       const { data: created } = await api.post('/comments', payload);
-      // backend already returns timestamp: 'Just now'
       setComments((prev) => [
         { ...created, avatar: user?.avatar || 'https://picsum.photos/32/32?random=99', likes: 0, replies: 0 },
         ...prev
@@ -41,6 +40,22 @@ const CommentSection = ({ videoId }) => {
       setNewComment('');
     } catch (err) {
       console.error('Failed to add comment:', err);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    const idToDelete = Number(commentId);
+    if (Number.isNaN(idToDelete)) {
+      console.error('Invalid comment id for delete:', commentId);
+      return;
+    }
+
+    setComments((prev) => prev.filter((comment) => String(comment.id) !== String(idToDelete)));
+
+    try {
+      await api.delete(`/comments/${idToDelete}`);
+    } catch (err) {
+      console.error('Failed to delete comment:', err);
     }
   };
 
@@ -90,7 +105,7 @@ const CommentSection = ({ videoId }) => {
 
       <div className="comments-list">
         {comments.map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
+          <CommentItem key={comment.id} comment={comment} onDelete={handleDeleteComment} />
         ))}
       </div>
     </div>

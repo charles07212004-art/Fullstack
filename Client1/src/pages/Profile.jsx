@@ -9,6 +9,7 @@ const Profile = () => {
   const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const [avatarUrl, setAvatarUrl] = useState('');
+  const [name, setName] = useState(user?.name || '');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -25,11 +26,18 @@ const Profile = () => {
   // Set initial avatar from user or default
   useEffect(() => {
     setAvatarUrl(profileUser.avatar);
-  }, [profileUser.avatar]);
+    setName(profileUser.name || '');
+  }, [profileUser.avatar, profileUser.name]);
 
   const handleSignOut = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleSaveProfile = () => {
+    if (name.trim()) {
+      updateUser({ name: name.trim() });
+    }
   };
 
   const handleAvatarChange = (event) => {
@@ -59,6 +67,12 @@ const Profile = () => {
                 Manage your account details, update your profile picture, and
                 sign out when you’re done.
               </p>
+              <div className="profile-info-note">
+                <span className="info-icon">ℹ️</span>
+                <p>
+                  Para makatulong sa iyong profile setup: i-click ang camera icon para mag-upload ng bagong avatar, i-update ang account details, at mag-sign out kapag tapos na.
+                </p>
+              </div>
             </div>
             <button className="sign-out-button" onClick={handleSignOut}>
               Sign Out
@@ -81,8 +95,20 @@ const Profile = () => {
               </label>
             </div>
             <div className="profile-card-details">
-              <h2>{profileUser.name}</h2>
+              <div className="profile-edit-row">
+                <input
+                  id="profile-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Username"
+                  className="profile-name-input"
+                />
+              </div>
               <p className="profile-email">{profileUser.email}</p>
+              <button type="button" className="save-profile-btn" onClick={handleSaveProfile}>
+                Save name
+              </button>
               <div className="profile-stats">
                 <div>
                   <p>Member since</p>

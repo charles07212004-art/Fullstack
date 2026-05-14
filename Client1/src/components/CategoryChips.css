@@ -28,7 +28,7 @@
 }
 
 .category-chip:hover {
-  background: #e0e0e0;
+  background: var(--hover-bg);
 }
 
 .category-chip.active {

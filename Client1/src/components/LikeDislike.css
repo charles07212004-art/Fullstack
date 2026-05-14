@@ -1,35 +1,45 @@
 .like-dislike {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .like-dislike button {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  padding: 8px 16px;
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   color: var(--text-primary);
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.2s;
-  border-radius: 20px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  border-radius: 999px;
 }
 
 .like-dislike button:hover {
   background: var(--hover-bg);
 }
 
-.like-dislike button.active {
+.like-btn.active,
+.dislike-btn.active {
+  background: var(--accent-bg);
   color: var(--primary-color);
+  border-color: var(--accent-border);
+}
+
+.dislike-btn.active {
+  background: var(--danger-bg);
+  color: var(--danger-color);
+  border-color: rgba(239, 68, 68, 0.25);
 }
 
 .like-dislike button svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
 }
 
@@ -43,6 +53,30 @@
 .share-btn,
 .download-btn {
   color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .like-dislike {
+    gap: 6px;
+  }
+
+  .like-dislike button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .like-dislike button span {
+    display: none;
+  }
+
+  .like-dislike button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .divider {
+    margin: 0 4px;
+  }
 }
 
 @media (max-width: 768px) {

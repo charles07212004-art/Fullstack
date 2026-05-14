@@ -61,6 +61,16 @@
   padding: 0;
 }
 
+.delete-comment-btn {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
+.delete-comment-btn {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
 .comment-actions button:hover {
   color: var(--text-primary);
 }

@@ -53,7 +53,7 @@
 }
 
 .related-section::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
+  background: var(--overlay);
   border-radius: 999px;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .subscribe-btn:hover {
-  background: #cc0000;
+  background: var(--danger-color);
 }
 
 .subscribe-btn.subscribed {
@@ -166,7 +166,7 @@
 }
 
 .subscribe-btn.subscribed:hover {
-  background: #666;
+  background: var(--text-primary);
 }
 
 .video-description {

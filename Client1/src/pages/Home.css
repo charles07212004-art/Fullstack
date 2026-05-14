@@ -48,7 +48,7 @@
 
 .empty-state {
   padding: 32px;
-  background: #ffffff;
+  background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   text-align: center;
@@ -57,8 +57,8 @@
 
 .select-btn {
   padding: 8px 16px;
-  background-color: #4a90e2;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--inverse-text);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -69,17 +69,18 @@
 }
 
 .select-btn:hover {
-  background-color: #357abd;
+  background-color: var(--accent-color);
+  filter: brightness(0.95);
 }
 
 .select-btn.active {
-  background-color: #2d5a1f;
+  background-color: var(--success-color);
 }
 
 .delete-selected-btn {
   padding: 8px 16px;
-  background-color: #ff9800;
-  color: white;
+  background-color: var(--warning-color);
+  color: var(--inverse-text);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -90,7 +91,7 @@
 }
 
 .delete-selected-btn:hover {
-  background-color: #f57c00;
+  background-color: var(--warning-dark);
 }
 
 .delete-selected-btn:active {
@@ -99,8 +100,8 @@
 
 .delete-all-btn {
   padding: 8px 16px;
-  background-color: #ff4444;
-  color: white;
+  background-color: var(--danger-color);
+  color: var(--inverse-text);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -111,7 +112,7 @@
 }
 
 .delete-all-btn:hover {
-  background-color: #cc0000;
+  background-color: var(--danger-dark);
 }
 
 .delete-all-btn:active {

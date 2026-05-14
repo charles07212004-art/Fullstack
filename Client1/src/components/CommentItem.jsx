@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './CommentItem.css';
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment, onDelete }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
   const [showReplies, setShowReplies] = useState(false);
@@ -13,6 +13,12 @@ const CommentItem = ({ comment }) => {
       setLikes(likes + 1);
     }
     setLiked(!liked);
+  };
+
+  const handleDelete = () => {
+    if (typeof onDelete === 'function') {
+      onDelete(comment.id);
+    }
   };
 
   const formatCount = (count) => {
@@ -43,6 +49,9 @@ const CommentItem = ({ comment }) => {
           </button>
           <button className="dislike-btn">
             👎
+          </button>
+          <button type="button" className="delete-comment-btn" onClick={handleDelete}>
+            Delete
           </button>
           <button className="reply-btn">
             Reply

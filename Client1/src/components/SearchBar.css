@@ -6,7 +6,7 @@
   border: 1px solid var(--border-color);
   border-radius: 40px;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--surface-color);
 }
 
 .search-input {
@@ -17,6 +17,8 @@
   outline: none;
   font-size: 16px;
   background: transparent;
+  color: var(--text-primary);
+  caret-color: var(--text-primary);
 }
 
 .search-input::placeholder {
@@ -36,7 +38,7 @@
 }
 
 .search-btn:hover {
-  background: #e8e8e8;
+  background: var(--hover-bg);
 }
 
 .search-btn svg {
